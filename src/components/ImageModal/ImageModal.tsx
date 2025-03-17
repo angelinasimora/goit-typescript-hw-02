@@ -1,7 +1,26 @@
 import Modal from "react-modal";
 import css from './ImageModal.module.css';
 
-export default function ImageModal({ isOpen, closeModal, image }) {
+interface User {
+  username: string;
+}
+
+interface ImageItem {
+  alt_description?: string;
+  urls: {
+    regular: string;
+  };
+  likes: number;
+  user: User;
+}
+
+interface ImageModalProps {
+  isOpen: boolean;
+  closeModal: () => void;
+  image: ImageItem | null;
+}
+
+export default function ImageModal({ isOpen, closeModal, image }: ImageModalProps) {
   if (!image) return null;
 
   const { alt_description, urls, likes, user } = image;
@@ -20,7 +39,7 @@ export default function ImageModal({ isOpen, closeModal, image }) {
       borderRadius: "10px",
       border: "none",
       overflow: "hidden",
-       background: "none",
+      background: "none",
     },
   };
 
@@ -29,7 +48,7 @@ export default function ImageModal({ isOpen, closeModal, image }) {
       isOpen={isOpen}
       onRequestClose={closeModal}
       style={customStyles}
-      ariaHideApp={false} 
+      ariaHideApp={false}
     >
       <div className={css.container}>
         <img src={urls.regular} alt={alt_description} className={css.img} />

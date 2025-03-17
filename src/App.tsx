@@ -9,18 +9,37 @@ import ImageModal from './components/ImageModal/ImageModal';
 import Modal from 'react-modal';
 import fetchImages from './components/FetchImages/FetchImages';
 
+// Типи для зображень
+interface Image {
+  id: string;
+  urls: {
+    regular: string;
+    full: string;
+  };
+  alt_description: string;
+  likes: number;
+  user: {
+    username: string;
+  };
+}
+
+// Типізація для відповіді від API
+interface ResponseDataForFetch {
+  results: Image[];
+}
+
 const ACCESS_KEY = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
 
 Modal.setAppElement('#root');
 
 function App() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [images, setImages] = useState([]);
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [currentImageItem, setCurrentImageItem] = useState(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [images, setImages] = useState<Image[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [currentImageItem, setCurrentImageItem] = useState<Image | null>(null);
 
   useEffect(() => {
     if (!searchQuery) return;
@@ -29,19 +48,19 @@ function App() {
     handleFetchImages(searchQuery, 1);
   }, [searchQuery]);
 
-  const handleSearch = (query) => {
+  const handleSearch = (query: string) => {
     setSearchQuery(query);
   };
 
- const handleFetchImages = async (query, page) => {
+  const handleFetchImages = async (query: string, page: number) => {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await fetchImages(query, page, ACCESS_KEY);
+      const data: ResponseDataForFetch = await fetchImages(query, page, ACCESS_KEY);
       setImages((prevImages) => [...prevImages, ...data.results]);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching images:", error.message || error);
-      setError(error.message || error);  // Встановлюємо помилку в стан
+      setError(error.message || error);
     } finally {
       setIsLoading(false);
     }
@@ -53,7 +72,7 @@ function App() {
     handleFetchImages(searchQuery, nextPage);
   };
 
-  const handleOpenModal = (image) => {
+  const handleOpenModal = (image: Image) => {
     setCurrentImageItem(image);
     setModalIsOpen(true);
   };
@@ -76,8 +95,7 @@ function App() {
         </>
       )}
       {modalIsOpen && (
-       <ImageModal isOpen={modalIsOpen} closeModal={handleCloseModal} image={currentImageItem} />
-
+        <ImageModal isOpen={modalIsOpen} closeModal={handleCloseModal} image={currentImageItem} />
       )}
     </div>
   );

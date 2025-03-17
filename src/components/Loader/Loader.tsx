@@ -1,8 +1,7 @@
 import css from './Loader.module.css';
-
 import { ThreeDots } from "react-loader-spinner";
 
-export default function Loader() {
+export default function Loader(): JSX.Element {
   return (
     <div className={css.loader}>
       <ThreeDots
