@@ -3,7 +3,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import css from "./SearchBar.module.css";
 
-// Типи для пропсів компонента
+
 interface SearchBarProps {
   onSubmit: (query: string) => void;
 }

@@ -1,4 +1,4 @@
-import { ResponseDataForFetch } from '../../types';  // Імпортуємо типи
+import { ResponseDataForFetch } from '../../types'; 
 
 export default async function fetchImages(
   query: string,

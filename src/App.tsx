@@ -9,10 +9,11 @@ import ImageModal from './components/ImageModal/ImageModal';
 import Modal from 'react-modal';
 import fetchImages from './components/FetchImages/FetchImages';
 
-// Типи для зображень
+
 interface Image {
   id: string;
   urls: {
+    small: string; 
     regular: string;
     full: string;
   };
@@ -23,7 +24,7 @@ interface Image {
   };
 }
 
-// Типізація для відповіді від API
+
 interface ResponseDataForFetch {
   results: Image[];
 }

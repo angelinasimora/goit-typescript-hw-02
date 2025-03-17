@@ -4,8 +4,12 @@ import css from "./ImageCard.module.css";
 interface ImageItem {
   id: string;
   alt_description?: string;
-  urls: {
-    small: string;
+    urls: {
+        small: string;
+    };
+    likes: number;
+  user: {
+    name: string;
   };
 }
 
